@@ -1,0 +1,54 @@
+# Конфигурация приложения Dementor CMDB
+app_name: "Dementor CMDB API"
+debug: false
+api_prefix: "/api/v1"
+version: "0.1.0"
+
+# Настройки CORS (Cross-Origin Resource Sharing)
+cors:
+  allowed_origins: ["*"]  # В продакшене указывайте конкретные домены
+  allowed_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  allowed_headers: ["*"]
+
+# Настройки логирования
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/cmdb.log"  # Путь к файлу логов (опционально)
+
+# Конфигурация подключения к Neo4j
+neo4j:
+  host: "localhost"
+  port: 7687
+  user: "neo4j"
+  password: "656D614e+"  # В продакшене используйте переменные окружения
+  database: "neo4j"
+
+# API ключи для авторизации
+api_keys:
+  - client_id: "admin"
+    key: "Ui76gVkEBBLqmAjUWtAPZ8HbfkJ6F43fUgsLgaVWHPbxSMVhYKAKZwz6qZQEaG"
+    permissions:
+      - "read"
+      - "write"
+      - "admin"
+    description: "Административный доступ"
+  
+  - client_id: "user"
+    key: "user-api-key"
+    permissions:
+      - "read"
+    description: "Доступ только для чтения"
+  
+  - client_id: "monitor"
+    key: "monitor-api-key"
+    permissions:
+      - "read"
+    description: "Ключ для систем мониторинга"
+
+# Настройки для запросов
+api:
+  max_page_size: 1000        # Максимальное количество записей на страницу
+  default_page_size: 100     # Количество записей на страницу по умолчанию
+  neo4j_timeout: 30          # Таймаут запросов к Neo4j в секундах
+  request_timeout: 60        # Глобальный таймаут обработки запросов API

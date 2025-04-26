@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    # Используем открытый порт с привязкой ко всем интерфейсам
+    ports:
+      - "0.0.0.0:8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - CMDB_NEO4J_HOST=localhost  # Используем localhost, потому что мы будем использовать network_mode: host
+      - CMDB_NEO4J_PORT=7687
+      - CMDB_NEO4J_USER=neo4j
+      - CMDB_NEO4J_PASSWORD=656D614e+
+      - CMDB_NEO4J_DATABASE=neo4j
+      - CMDB_API_KEYS=admin:Ui76gVkEBBLqmAjUWtAPZ8HbfkJ6F43fUgsLgaVWHPbxSMVhYKAKZwz6qZQEaG:read,write,admin;user:user-api-key:read
+    # Используем сетевой режим хоста для прямого доступа к сетевым интерфейсам
+    network_mode: "host"
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
